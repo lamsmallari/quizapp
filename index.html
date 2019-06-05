@@ -15,5 +15,32 @@
         <a class="btn" href="highscores.html">High Scores</a>
       </div>
     </div>
+
+    <script>
+      var today = new Date();
+      var time = today.getHours();
+
+      fetchNewToken = () => {
+        fetch("https://opentdb.com/api_token.php?command=request")
+          .then(res => res.json())
+          .then(e => {
+            window.localStorage.setItem("token", e.token);
+            window.localStorage.setItem("token_expiration", time);
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      };
+
+      // New session
+      if (
+        !window.localStorage.getItem("token_expiration") ||
+        (window.localStorage.getItem("token_expiration") &&
+          window.localStorage.getItem("token_expiration") - time > 6)
+      ) {
+        fetchNewToken();
+      }
+
+    </script>
   </body>
 </html>

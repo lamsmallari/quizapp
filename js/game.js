@@ -16,11 +16,12 @@ let availableQuestions = [];
 // load questions
 let questions = [];
 
-fetch("https://opentdb.com/api.php?amount=5&category=11&difficulty=easy")
+fetch("https://opentdb.com/api.php?amount=5&category=11&difficulty=easy&token=" + window.localStorage.getItem('token') )
   .then(res => {
     return res.json();
   })
   .then(loadedQuestions => {
+    console.log(loadedQuestions);
 
     questions = loadedQuestions.results.map(loadedQuestion => {
       // create new object for your formatted question
@@ -62,7 +63,7 @@ fetch("https://opentdb.com/api.php?amount=5&category=11&difficulty=easy")
 
 // constants
 const CORRECT_BONUS = 10;
-const MAX_QUESTIONS = 3;
+const MAX_QUESTIONS = 5;
 
 startgame = () => {
   questionCounter = 0;
@@ -94,7 +95,6 @@ getNewQuestion = () => {
 
   // Print question's choices
   // <p class="choice-container" data-number="1"><span class="choice-prefix">A</span> <span class="choice-text">Choice 1</span></p>
-  console.log( currentQuestion );
 
   let choicePrefix = "@";
   choicesDom.innerHTML = '';
