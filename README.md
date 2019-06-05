@@ -1,1 +1,1 @@
-# quizapp
+# A vanilla javascript Quiz App
