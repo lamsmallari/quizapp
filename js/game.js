@@ -16,7 +16,7 @@ let availableQuestions = [];
 // load questions
 let questions = [];
 
-fetch("https://opentdb.com/api.php?amount=5&category=11&difficulty=easy&token=" + window.localStorage.getItem('token') )
+fetch("https://opentdb.com/api.php?amount=5&category=11&difficulty=easy&token=1c1411363d1e654f5e3320127f5ab030e89965732e42f3acd79ddf65b98614d7")
   .then(res => {
     return res.json();
   })
