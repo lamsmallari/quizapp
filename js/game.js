@@ -16,8 +16,9 @@ let availableQuestions = [];
 // load questions
 let questions = [];
 
-// fetch("https://opentdb.com/api.php?amount=5&category=11&difficulty=easy&token=1c1411363d1e654f5e3320127f5ab030e89965732e42f3acd79ddf65b98614d7")
-fetch("https://opentdb.com/api.php?amount=5&category=11&difficulty=easy")
+// fetch("https://opentdb.com/api.php?amount=5&category=11&difficulty=easy&token=34a69882d05468de8b4d45c4d61337bd48de75fcd0081f704554be92c3c5e01d")
+// fetch("https://opentdb.com/api.php?amount=5&category=11&difficulty=easy")
+fetch("https://opentdb.com/api.php?amount=10&difficulty=easy&token=34a69882d05468de8b4d45c4d61337bd48de75fcd0081f704554be92c3c5e01d")
   .then(res => {
     return res.json();
   })
