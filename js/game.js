@@ -16,32 +16,7 @@ let availableQuestions = [];
 // load questions
 let questions = [];
 
-// 34a69882d05468de8b4d45c4d61337bd48de75fcd0081f704554be92c3c5e01d
-
 let clientToken = window.localStorage.getItem("client_token");
-
-async function checkToken() {
-  const currentToken = await fetch("https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&token=" + clientToken);
-  const currentTokenData = await currentToken.json();
-  const responseCode = currentTokenData.response_code;
-  console.log(typeof responseCode + " : " + responseCode);
-
-  // 3 = expired or not found, request new one
-  if (responseCode == 3 || responseCode == 2) {
-    const newToken = await fetch("https://opentdb.com/api_token.php?command=request");
-    const newTokenData = await newToken.json();
-
-    clientToken = newTokenData.token;
-    window.localStorage.setItem("client_token", newTokenData.token);
-  }
-
-  // 4 = reset token if all question are answered
-  if (responseCode == 4) {
-    console.log(typeof responseCode);
-  }
-}
-
-checkToken();
 
 fetch("https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&token=" + clientToken)
   .then(res => {
@@ -102,7 +77,8 @@ getNewQuestion = () => {
   // If no more questions available, redirect to 'end page'
   if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
     localStorage.setItem("mostRecentScore", score);
-    return window.location.assign("/quizapp/end.html");
+    // return window.location.assign("/quizapp/end.html");
+    return window.location.assign("end.html");
   }
 
   // Update question hud counter
