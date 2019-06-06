@@ -39,7 +39,6 @@ resetToken = () => {
     .catch(err => {
       console.error(err);
     });
-  
 }
 
 // 1) generate client token if there's none
@@ -54,6 +53,7 @@ fetch("https://opentdb.com/api.php?amount=10&difficulty=easy&token=" + clientTok
   })
   .then(token_status => {
     const responseCode = token_status.response_code;
+    console.log(loadedQuestions);
 
     switch (responseCode) {
       case '3':
@@ -70,13 +70,12 @@ fetch("https://opentdb.com/api.php?amount=10&difficulty=easy&token=" + clientTok
     console.error(err);
   });
 
-
+// 3) run game
 fetch("https://opentdb.com/api.php?amount=10&difficulty=easy&token=" + clientToken)
   .then(res => {
     return res.json();
   })
   .then(loadedQuestions => {
-    console.log(loadedQuestions);
 
     questions = loadedQuestions.results.map(loadedQuestion => {
       // create new object for your formatted question
