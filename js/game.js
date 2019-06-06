@@ -23,7 +23,11 @@ fetch("https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&token="
     return res.json();
   })
   .then(loadedQuestions => {
-    console.log(loadedQuestions);
+    
+    if( loadedQuestions.response_code === 4 ) {
+      return window.location.assign("reset.html");
+    }
+
     questions = loadedQuestions.results.map(loadedQuestion => {
       // create new object for your formatted question
       const formattedQuestion = {
