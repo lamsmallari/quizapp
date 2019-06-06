@@ -21,7 +21,7 @@ let questions = [];
 let clientToken = window.localStorage.getItem("client_token");
 
 async function checkToken() {
-  const currentToken = await fetch("https://opentdb.com/api.php?amount=10&category=11&difficulty=easy=" + clientToken);
+  const currentToken = await fetch("https://opentdb.com/api.php?amount=10&category=11&difficulty=easy=&token=" + clientToken);
   const currentTokenData = await currentToken.json();
   const responseCode = currentTokenData.response_code;
   console.log(typeof responseCode + " : " + responseCode);
