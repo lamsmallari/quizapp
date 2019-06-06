@@ -27,7 +27,7 @@ async function checkToken() {
   console.log(typeof responseCode + " : " + responseCode);
 
   // 3 = expired or not found, request new one
-  if (responseCode == '3') {
+  if (responseCode == 3 || responseCode == 2) {
     const newToken = await fetch("https://opentdb.com/api_token.php?command=request");
     const newTokenData = await newToken.json();
 
@@ -36,7 +36,7 @@ async function checkToken() {
   }
 
   // 4 = reset token if all question are answered
-  if (responseCode == '4') {
+  if (responseCode == 4) {
     console.log(typeof responseCode);
   }
 }
