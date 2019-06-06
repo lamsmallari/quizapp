@@ -16,12 +16,34 @@ let availableQuestions = [];
 // load questions
 let questions = [];
 
-// fetch("https://opentdb.com/api.php?amount=5&category=11&difficulty=easy&token=34a69882d05468de8b4d45c4d61337bd48de75fcd0081f704554be92c3c5e01d")
-// fetch("https://opentdb.com/api.php?amount=5&category=11&difficulty=easy")
 // 34a69882d05468de8b4d45c4d61337bd48de75fcd0081f704554be92c3c5e01d
 
-// run game
-fetch("https://opentdb.com/api.php?amount=10&difficulty=easy&token=" + clientToken)
+let clientToken = window.localStorage.getItem("client_token");
+
+async function checkToken() {
+  const currentToken = await fetch("https://opentdb.com/api.php?amount=10&category=11&difficulty=easy=" + clientToken);
+  const currentTokenData = await currentToken.json();
+  const responseCode = currentTokenData.response_code;
+  console.log(typeof responseCode + " : " + responseCode);
+
+  // 3 = expired or not found, request new one
+  if (responseCode == '3') {
+    const newToken = await fetch("https://opentdb.com/api_token.php?command=request");
+    const newTokenData = await newToken.json();
+
+    clientToken = newTokenData.token;
+    window.localStorage.setItem("client_token", newTokenData.token);
+  }
+
+  // 4 = reset token if all question are answered
+  if (responseCode == '4') {
+    console.log(typeof responseCode);
+  }
+}
+
+checkToken();
+
+fetch("https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&token=" + clientToken)
   .then(res => {
     return res.json();
   })

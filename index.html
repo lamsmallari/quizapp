@@ -15,33 +15,5 @@
         <a class="btn" href="highscores.html">High Scores</a>
       </div>
     </div>
-
-    <script>
-
-      let clientToken = window.localStorage.getItem("client_token");
-
-      async function checkToken() {
-        const currentToken = await fetch("https://opentdb.com/api.php?amount=10&difficulty=easy&token=" + clientToken);
-        const currentTokenData = await currentToken.json();
-        const responseCode = currentTokenData.response_code;
-
-        // 3 = expired or not found
-        if (responseCode == '3') {
-          const newToken = await fetch("https://opentdb.com/api_token.php?command=request");
-          const newTokenData = await newToken.json();
-
-          clientToken = newTokenData.token;
-          window.localStorage.setItem("client_token", newTokenData.token);
-        }
-
-        // 4 = need reset
-        if (responseCode == '4') {
-          console.log(typeof responseCode);
-        }
-      }
-
-      checkToken();
-
-    </script>
   </body>
 </html>
