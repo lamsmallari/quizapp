@@ -53,7 +53,7 @@ fetch("https://opentdb.com/api.php?amount=10&difficulty=easy&token=" + clientTok
   })
   .then(token_status => {
     const responseCode = token_status.response_code;
-    console.log(loadedQuestions);
+    console.log(responseCode);
 
     switch (responseCode) {
       case '3':
