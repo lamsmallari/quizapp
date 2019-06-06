@@ -17,27 +17,31 @@
     </div>
 
     <script>
-      // var today = new Date();
-      // var time = today.getHours();
-      // fetchNewToken = () => {
-      //   fetch("https://opentdb.com/api_token.php?command=request")
-      //     .then(res => res.json())
-      //     .then(e => {
-      //       window.localStorage.setItem("token", e.token);
-      //       window.localStorage.setItem("token_expiration", time);
-      //     })
-      //     .catch(err => {
-      //       console.error(err);
-      //     });
-      // };
-      // // New session every 6 hours
-      // if (
-      //   !window.localStorage.getItem("token_expiration") ||
-      //   (window.localStorage.getItem("token_expiration") &&
-      //     window.localStorage.getItem("token_expiration") - time > 6)
-      // ) {
-      //   fetchNewToken();
-      // }
+
+      let clientToken = window.localStorage.getItem("client_token");
+
+      async function checkToken() {
+        const currentToken = await fetch("https://opentdb.com/api.php?amount=10&difficulty=easy&token=" + clientToken);
+        const currentTokenData = await currentToken.json();
+        const responseCode = currentTokenData.response_code;
+
+        // 3 = expired or not found
+        if (responseCode == '3') {
+          const newToken = await fetch("https://opentdb.com/api_token.php?command=request");
+          const newTokenData = await newToken.json();
+
+          clientToken = newTokenData.token;
+          window.localStorage.setItem("client_token", newTokenData.token);
+        }
+
+        // 4 = need reset
+        if (responseCode == '4') {
+          console.log(typeof responseCode);
+        }
+      }
+
+      checkToken();
+
     </script>
   </body>
 </html>
