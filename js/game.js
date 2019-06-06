@@ -18,7 +18,60 @@ let questions = [];
 
 // fetch("https://opentdb.com/api.php?amount=5&category=11&difficulty=easy&token=34a69882d05468de8b4d45c4d61337bd48de75fcd0081f704554be92c3c5e01d")
 // fetch("https://opentdb.com/api.php?amount=5&category=11&difficulty=easy")
-fetch("https://opentdb.com/api.php?amount=10&difficulty=easy&token=34a69882d05468de8b4d45c4d61337bd48de75fcd0081f704554be92c3c5e01d")
+// 34a69882d05468de8b4d45c4d61337bd48de75fcd0081f704554be92c3c5e01d
+
+let clientToken;
+
+requestNewToken = () => {
+  fetch("https://opentdb.com/api_token.php?command=request")
+    .then(res => res.json())
+    .then(t => {
+      clientToken = window.localStorage.setItem("client_token", t.token);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
+
+resetToken = () => {
+  fetch("https://opentdb.com/api_token.php?command=reset&token=" + clientToken)
+    .then(res => res.json())
+    .catch(err => {
+      console.error(err);
+    });
+  
+}
+
+// 1) generate client token if there's none
+if ( !window.localStorage.getItem("client_token") ) {
+  requestNewToken();
+}
+
+// 2) check response
+fetch("https://opentdb.com/api.php?amount=10&difficulty=easy&token=" + clientToken)
+  .then(r => {
+    return r.json();
+  })
+  .then(token_status => {
+    const responseCode = token_status.response_code;
+
+    switch (responseCode) {
+      case '3':
+        requestNewToken();
+        break;
+      case '4':
+        resetToken();
+        break;
+      default:
+        break;
+    }
+  })
+  .catch(err => {
+    console.error(err);
+  });
+
+
+fetch("https://opentdb.com/api.php?amount=10&difficulty=easy&token=" + clientToken)
   .then(res => {
     return res.json();
   })
