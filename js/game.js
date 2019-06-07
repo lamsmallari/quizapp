@@ -18,7 +18,7 @@ let questions = [];
 
 let clientToken = window.localStorage.getItem("client_token");
 
-fetch("https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&token=" + clientToken)
+fetch("https://opentdb.com/api.php?amount=5&category=11&difficulty=easy&token=" + clientToken)
   .then(res => {
     return res.json();
   })

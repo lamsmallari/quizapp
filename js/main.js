@@ -1,3 +1,5 @@
+const loader = document.getElementById("loader");
+const main = document.querySelector(".main");
 
 let clientToken = window.localStorage.getItem("client_token");
 
@@ -10,11 +12,11 @@ async function createToken() {
 }
 
 async function checkToken() {
-  const currentToken = await fetch("https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&token=" + clientToken);
+  const currentToken = await fetch("https://opentdb.com/api.php?amount=5&category=11&difficulty=easy&token=" + clientToken);
   const currentTokenData = await currentToken.json();
   
   const responseCode = currentTokenData.response_code;
-  console.log(typeof responseCode + " : " + responseCode);
+  console.log("response : " + responseCode);
 
   // (3) expired or (0) not found, request new one
   if (responseCode === 3 || responseCode === 2) {
@@ -25,6 +27,9 @@ async function checkToken() {
   if (responseCode == 4) {
     const currentToken = await fetch("https://opentdb.com/api_token.php?command=reset&token=" + clientToken);
   }
+
+  main.classList.remove('hidden');
+  loader.classList.add('hidden');
 }
 
 checkToken();
